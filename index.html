@@ -1,0 +1,1233 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Самая Красивая | Магазин для будущих мам и малышей — Новый Уренгой</title>
+    <meta name="description" content="Самая Красивая — магазин одежды для будущих и кормящих мам и детей. Новый Уренгой, мкр. Строителей, 5/1. Тел. +7 (902) 829-20-30">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Roboto, system-ui, sans-serif; }
+
+        :root {
+            --rose: #b76e79;
+            --rose-dark: #9e5b65;
+            --peach: #d4a59a;
+            --gold: #e6be8a;
+            --cream: #fffaf4;
+            --blush: #faece5;
+            --line: #f0e4d5;
+            --text: #573f3f;
+            --text-dark: #402d2d;
+            --text-soft: #7f5a5a;
+            --price: #b4515b;
+        }
+
+        html, body { height: 100%; overflow: hidden; }
+
+        body {
+            background-color: var(--cream);
+            background-image: url('assets/img/background.jpg');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            background-repeat: no-repeat;
+            color: #2e2e2e;
+            line-height: 1.5;
+        }
+
+        /* ===== Верхняя панель ===== */
+        .topbar {
+            position: fixed;
+            top: 0; left: 0; right: 0;
+            height: 64px;
+            background: rgba(255,255,255,0.92);
+            backdrop-filter: blur(8px);
+            border-bottom: 1px solid var(--line);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+            z-index: 100;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 28px;
+        }
+        .topbar-brand {
+            font-size: 24px;
+            font-weight: 400;
+            background: linear-gradient(75deg, #d78894, var(--gold));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            cursor: pointer;
+        }
+        .topbar-actions { display: flex; align-items: center; gap: 18px; }
+        .topbar-phone {
+            color: var(--rose);
+            text-decoration: none;
+            font-weight: 500;
+            display: flex; align-items: center; gap: 8px;
+            transition: 0.3s;
+        }
+        .topbar-phone:hover { color: var(--rose-dark); }
+        .topbar-btn {
+            background: linear-gradient(45deg, var(--rose), var(--peach));
+            color: #fff;
+            border: none;
+            border-radius: 50px;
+            padding: 9px 22px;
+            font-size: 15px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: 0.3s;
+            box-shadow: 0 4px 12px rgba(183,110,121,0.3);
+        }
+        .topbar-btn:hover { transform: scale(1.03); box-shadow: 0 6px 18px rgba(183,110,121,0.4); }
+
+        /* ===== Слайдер ===== */
+        .slider { position: fixed; inset: 64px 0 0 0; overflow: hidden; }
+        .slides {
+            display: flex;
+            height: 100%;
+            width: 400%;
+            transition: transform 0.7s cubic-bezier(0.65, 0, 0.25, 1);
+        }
+        .slide {
+            width: 25%;
+            height: 100%;
+            overflow-y: auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 30px 90px 84px;
+        }
+        .slide-inner { width: 100%; max-width: 1150px; margin: auto; animation: none; }
+        .slide.active .slide-inner { animation: rise 0.8s ease both; }
+        @keyframes rise {
+            from { opacity: 0; transform: translateY(24px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Стрелки */
+        .arrow {
+            position: fixed;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 56px; height: 56px;
+            border-radius: 50%;
+            border: 1px solid var(--line);
+            background: rgba(255,255,255,0.92);
+            color: var(--rose);
+            font-size: 20px;
+            cursor: pointer;
+            z-index: 90;
+            transition: 0.3s;
+            box-shadow: 0 6px 18px rgba(183,110,121,0.18);
+        }
+        .arrow:hover { background: var(--rose); color: #fff; transform: translateY(-50%) scale(1.08); }
+        .arrow.prev { left: 18px; }
+        .arrow.next { right: 18px; }
+        .arrow.hidden { opacity: 0; pointer-events: none; }
+
+        /* Точки */
+        .dots {
+            position: fixed;
+            bottom: 22px; left: 50%;
+            transform: translateX(-50%);
+            display: flex; gap: 12px;
+            z-index: 90;
+            background: rgba(255,255,255,0.85);
+            padding: 10px 18px;
+            border-radius: 40px;
+            border: 1px solid var(--line);
+        }
+        .dot {
+            width: 12px; height: 12px;
+            border-radius: 50%;
+            background: #edd3c4;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        .dot.active { background: var(--rose); transform: scale(1.25); }
+
+        /* ===== Заголовки ===== */
+        .section-title {
+            font-size: 38px;
+            font-weight: 350;
+            color: var(--text);
+            margin-bottom: 8px;
+            border-left: 5px solid var(--rose);
+            padding-left: 20px;
+        }
+        .section-sub {
+            font-size: 18px;
+            color: var(--text-soft);
+            margin: 0 0 30px 25px;
+        }
+
+        /* ===== Слайд 1: логотип ===== */
+        .hero { text-align: center; }
+        .hero-logo {
+            max-width: 600px;
+            width: 100%;
+            height: auto;
+            display: block;
+            margin: 0 auto 10px;
+        }
+        .hero-fallback {
+            display: none;
+            font-size: 72px;
+            font-weight: 350;
+            background: linear-gradient(75deg, #d78894, var(--gold));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            margin-bottom: 10px;
+        }
+        .hero-tagline {
+            font-size: 28px;
+            font-weight: 350;
+            color: var(--text);
+            margin-bottom: 8px;
+        }
+        .hero-city { color: var(--text-soft); font-size: 18px; margin-bottom: 34px; }
+        .hero-chips { display: flex; flex-wrap: wrap; gap: 14px; justify-content: center; margin-bottom: 38px; }
+        .chip {
+            background: rgba(255,255,255,0.88);
+            border: 1px solid #f5e0d3;
+            border-radius: 50px;
+            padding: 10px 22px;
+            color: var(--rose);
+            font-weight: 500;
+            box-shadow: 0 4px 12px #f2e1d4;
+        }
+        .chip i { margin-right: 8px; }
+        .btn-main {
+            display: inline-block;
+            font-size: 20px;
+            padding: 16px 48px;
+            border-radius: 50px;
+            border: none;
+            color: #fff;
+            text-decoration: none;
+            cursor: pointer;
+            background: linear-gradient(45deg, var(--rose), var(--peach), var(--rose));
+            background-size: 200% auto;
+            box-shadow: 0 8px 20px rgba(183,110,121,0.3);
+            transition: 0.3s;
+        }
+        .btn-main:hover { background-position: right center; transform: scale(1.03); box-shadow: 0 12px 28px rgba(183,110,121,0.4); }
+
+        /* ===== Слайд 2: ассортимент ===== */
+        .assort-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; }
+        .assort-card {
+            background: rgba(255,255,255,0.92);
+            border: 1px solid #f5e0d3;
+            border-radius: 40px;
+            padding: 32px 30px;
+            box-shadow: 0 6px 18px #f2e1d4;
+        }
+        .assort-head {
+            display: flex; align-items: center; gap: 16px;
+            padding-bottom: 16px;
+            margin-bottom: 18px;
+            border-bottom: 2px solid #f3d9dc;
+        }
+        .assort-icon {
+            width: 58px; height: 58px;
+            border-radius: 50%;
+            background: var(--blush);
+            display: flex; align-items: center; justify-content: center;
+            font-size: 26px;
+            color: var(--rose);
+            flex-shrink: 0;
+        }
+        .assort-head h3 { font-size: 28px; font-weight: 350; color: var(--text-dark); line-height: 1.2; }
+        .assort-list { list-style: none; display: flex; flex-direction: column; gap: 4px; }
+        .assort-list li {
+            display: flex; justify-content: space-between; align-items: baseline; gap: 14px;
+            padding: 11px 0;
+            border-bottom: 1px dashed #f0dacd;
+            font-size: 17px;
+            color: var(--text);
+        }
+        .assort-list li:last-child { border-bottom: none; }
+        .assort-list small { display: block; font-size: 13px; color: var(--text-soft); margin-top: 2px; }
+        .assort-list .price { color: var(--price); font-weight: 600; white-space: nowrap; }
+        .assort-list li i { color: var(--rose); width: 22px; margin-right: 8px; }
+        .assort-foot {
+            margin-top: 20px;
+            background: var(--blush);
+            border-radius: 30px;
+            padding: 14px 20px;
+            font-size: 15px;
+            color: var(--text);
+            text-align: center;
+        }
+        .assort-foot i { color: var(--rose); margin-right: 6px; }
+
+        /* ===== Слайд 3: режим работы ===== */
+        .info-grid { display: grid; grid-template-columns: 1.1fr 1fr; gap: 30px; }
+        .info-card {
+            background: rgba(255,255,255,0.92);
+            border: 1px solid #f5e0d3;
+            border-radius: 40px;
+            padding: 34px 32px;
+            box-shadow: 0 6px 18px #f2e1d4;
+        }
+        .info-card h3 {
+            font-size: 24px; font-weight: 400; color: var(--rose);
+            margin-bottom: 20px;
+            display: flex; align-items: center; gap: 12px;
+        }
+        .hours-big {
+            background: linear-gradient(135deg, var(--rose), var(--peach));
+            color: #fff;
+            border-radius: 30px;
+            padding: 24px;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .hours-big .label { font-size: 16px; opacity: 0.9; }
+        .hours-big .time { font-size: 30px; font-weight: 400; line-height: 1.25; margin: 4px 0; }
+        .contact-line {
+            display: flex; align-items: center; gap: 14px;
+            padding: 13px 0;
+            border-bottom: 1px dashed #f0dacd;
+            font-size: 18px;
+            color: var(--text);
+        }
+        .contact-line:last-of-type { border-bottom: none; }
+        .contact-line i { color: var(--rose); width: 24px; text-align: center; font-size: 20px; }
+        .contact-line a { color: var(--text); text-decoration: none; transition: 0.2s; }
+        .contact-line a:hover { color: var(--rose); }
+        .note { font-size: 14px; color: var(--text-soft); margin-top: 6px; }
+        .perks { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 18px; }
+        .perk {
+            font-size: 13px;
+            background: var(--blush);
+            color: var(--rose);
+            border-radius: 20px;
+            padding: 5px 14px;
+        }
+        .call-card { display: flex; flex-direction: column; justify-content: center; text-align: center; background: var(--blush); }
+        .call-card h3 { justify-content: center; font-size: 28px; }
+        .call-card p { color: var(--text-soft); font-size: 17px; margin-bottom: 26px; }
+
+        /* ===== Слайд 4: карта ===== */
+        .map-wrap { position: relative; margin-top: 6px; }
+        .map-wrap iframe {
+            width: 100%;
+            height: min(520px, calc(100vh - 260px));
+            min-height: 340px;
+            border: 0;
+            border-radius: 60px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            background: #fff;
+        }
+        .map-overlay {
+            position: absolute;
+            top: 28px; left: 28px;
+            background: rgba(255,255,255,0.92);
+            backdrop-filter: blur(5px);
+            padding: 24px 30px;
+            border-radius: 36px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+            max-width: 340px;
+            border: 1px solid rgba(183,110,121,0.3);
+        }
+        .map-overlay .head { font-size: 20px; font-weight: 600; color: var(--rose); margin-bottom: 8px; }
+        .map-overlay .line { font-size: 17px; color: #3b2b2b; margin-bottom: 4px; }
+        .map-overlay .route {
+            display: inline-block; margin-top: 12px;
+            background: linear-gradient(45deg, var(--rose), var(--peach));
+            color: #fff; text-decoration: none;
+            border-radius: 50px; padding: 9px 22px; font-size: 15px; font-weight: 500;
+            transition: 0.3s;
+        }
+        .map-overlay .route:hover { transform: scale(1.04); }
+        .map-overlay .tags { margin-top: 14px; padding-top: 14px; border-top: 2px dashed #edd7cb; }
+        .social-line {
+            display: inline-block;
+            font-family: monospace;
+            font-size: 16px;
+            color: var(--rose);
+            background: rgba(183,110,121,0.1);
+            padding: 4px 12px;
+            border-radius: 30px;
+            text-decoration: none;
+            margin: 3px 6px 3px 0;
+            transition: 0.3s;
+        }
+        .social-line:hover { background: rgba(183,110,121,0.2); color: var(--rose-dark); }
+
+        /* ===== Модальное окно ===== */
+        .modal {
+            display: none;
+            position: fixed; inset: 0;
+            background: rgba(0,0,0,0.5);
+            z-index: 2000;
+            align-items: center; justify-content: center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            padding: 16px;
+        }
+        .modal.active { display: flex; opacity: 1; }
+        .modal-content {
+            background: #fff;
+            max-width: 500px; width: 100%;
+            max-height: 92vh; overflow-y: auto;
+            border-radius: 60px;
+            padding: 40px;
+            position: relative;
+            box-shadow: 0 20px 50px rgba(183,110,121,0.3);
+            transform: translateY(-20px);
+            transition: transform 0.3s ease;
+        }
+        .modal.active .modal-content { transform: translateY(0); }
+        .modal-close {
+            position: absolute; top: 20px; right: 20px;
+            background: none; border: none;
+            font-size: 30px; color: var(--rose);
+            cursor: pointer;
+            width: 40px; height: 40px; border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            transition: 0.3s;
+        }
+        .modal-close:hover { background: rgba(183,110,121,0.1); transform: rotate(90deg); }
+        .modal-title {
+            font-size: 32px; font-weight: 400;
+            background: linear-gradient(75deg, #d78894, var(--gold));
+            -webkit-background-clip: text; background-clip: text; color: transparent;
+            margin-bottom: 26px; text-align: center;
+        }
+        .field { margin-bottom: 18px; }
+        .label { color: var(--text); font-size: 16px; margin-bottom: 5px; display: block; }
+        .input {
+            width: 100%;
+            border-radius: 30px;
+            border: 2px solid var(--line);
+            padding: 12px 20px;
+            font-size: 16px;
+            outline: none;
+            transition: 0.3s;
+        }
+        .input:focus { border-color: var(--rose); box-shadow: 0 0 0 3px rgba(183,110,121,0.2); }
+        .input.invalid { border-color: #f14668; }
+        .checkbox { color: var(--text); display: flex; align-items: flex-start; gap: 8px; cursor: pointer; font-size: 14px; }
+        .checkbox input { width: 18px; height: 18px; accent-color: var(--rose); margin-top: 2px; flex-shrink: 0; }
+        .form-error { color: #f14668; font-size: 14px; margin-top: 8px; display: none; text-align: center; }
+        .btn-submit {
+            width: 100%; padding: 16px;
+            background: linear-gradient(45deg, var(--rose), var(--peach));
+            color: #fff; border: none; border-radius: 50px;
+            font-size: 20px; font-weight: 500; cursor: pointer;
+            transition: 0.3s; margin-top: 14px;
+        }
+        .btn-submit:hover { transform: scale(1.02); box-shadow: 0 8px 25px rgba(183,110,121,0.4); }
+        .success-box { display: none; text-align: center; padding: 20px 0 10px; }
+        .success-box i { font-size: 64px; color: #48c774; margin-bottom: 16px; }
+        .success-box h3 { font-size: 26px; font-weight: 400; color: var(--rose); margin-bottom: 8px; }
+        .success-box p { color: var(--text-soft); }
+
+        /* ===== Кнопка «Подарочные сертификаты» на первом слайде ===== */
+        button.chip-btn { font-size: 16px; cursor: pointer; transition: 0.3s; }
+        .chip-btn:hover { background: var(--rose); color: #fff; transform: translateY(-2px); box-shadow: 0 8px 18px rgba(183,110,121,0.35); }
+        .chip-btn .chip-cta {
+            margin-left: 12px; padding: 2px 12px; border-radius: 20px;
+            background: var(--blush); color: var(--rose-dark); font-size: 13px; transition: 0.3s;
+        }
+        .chip-btn:hover .chip-cta { background: rgba(255,255,255,0.28); color: #fff; }
+
+        /* ===== Окно покупки сертификата ===== */
+        .gift-modal .modal-content { max-width: 580px; border-radius: 44px; padding: 36px 36px 32px; }
+        .gift-modal .modal-title { margin-bottom: 6px; }
+        .gift-lead { text-align: center; color: var(--text-soft); font-size: 15px; margin-bottom: 24px; }
+        .step-label { display: block; font-size: 16px; font-weight: 500; color: var(--text); margin-bottom: 8px; }
+        .amount-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(90px, 1fr)); gap: 10px; margin-bottom: 10px; }
+        .amount-btn {
+            border: 2px solid var(--line); background: #fff; color: var(--text);
+            border-radius: 30px; padding: 10px 6px; font-size: 16px; cursor: pointer; transition: 0.25s;
+        }
+        .amount-btn:hover { border-color: var(--peach); }
+        .amount-btn.selected { border-color: var(--rose); background: var(--blush); color: var(--rose-dark); font-weight: 600; }
+        textarea.input { border-radius: 26px; resize: vertical; min-height: 92px; display: block; }
+        .counter { text-align: right; font-size: 13px; color: var(--text-soft); margin-top: 4px; }
+        .hint { font-size: 13px; color: var(--text-soft); margin-top: 5px; }
+        .choice-grid { display: grid; gap: 10px; }
+        .choice-grid.cols-3 { grid-template-columns: repeat(3, 1fr); }
+        .choice {
+            display: flex; align-items: center; gap: 12px; cursor: pointer;
+            border: 2px solid var(--line); border-radius: 28px; padding: 12px 18px;
+            color: var(--text); transition: 0.25s; background: #fff;
+        }
+        .choice:hover { border-color: var(--peach); }
+        .choice input { accent-color: var(--rose); width: 18px; height: 18px; flex-shrink: 0; }
+        .choice:has(input:checked) { border-color: var(--rose); background: var(--blush); }
+        .choice small { display: block; color: var(--text-soft); font-size: 13px; }
+        .schedule-box {
+            display: none; margin-top: 12px; padding: 16px;
+            background: var(--cream); border: 1px dashed var(--peach); border-radius: 28px;
+        }
+        .schedule-box.open { display: block; }
+        .schedule-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+        select.input { background: #fff; cursor: pointer; }
+        .total-line {
+            display: flex; justify-content: space-between; align-items: center;
+            background: var(--blush); border-radius: 30px; padding: 14px 24px;
+            font-size: 18px; color: var(--text); margin: 4px 0 18px;
+        }
+        .total-line b { color: var(--price); font-size: 26px; font-weight: 600; }
+
+        /* ===== Адаптив ===== */
+        @media (max-width: 1000px) {
+            .slide { padding: 24px 24px 80px; }
+            .arrow { width: 44px; height: 44px; font-size: 16px; }
+            .arrow.prev { left: 6px; }
+            .arrow.next { right: 6px; }
+            .assort-grid, .info-grid { grid-template-columns: 1fr; }
+        }
+        @media (max-width: 768px) {
+            .topbar { padding: 0 16px; height: 58px; }
+            .slider { inset: 58px 0 0 0; }
+            .topbar-brand { font-size: 19px; }
+            .topbar-phone span { display: none; }
+            .topbar-btn { padding: 8px 16px; font-size: 14px; }
+            .section-title { font-size: 28px; padding-left: 14px; }
+            .section-sub { font-size: 16px; margin-left: 19px; }
+            .hero-tagline { font-size: 22px; }
+            .hero-fallback { font-size: 48px; }
+            .assort-card, .info-card { padding: 24px 20px; border-radius: 30px; }
+            .assort-head h3 { font-size: 22px; }
+            .assort-list li { font-size: 15px; }
+            .hours-big .time { font-size: 24px; }
+            .map-wrap iframe { border-radius: 30px; height: 360px; }
+            .map-overlay { position: relative; top: 0; left: 0; max-width: 100%; margin-top: 16px; border-radius: 30px; }
+            .modal-content { border-radius: 36px; padding: 30px 22px; }
+            .arrow { display: none; }
+        }
+        @media (max-width: 768px) {
+            .gift-modal .modal-content { padding: 30px 20px 24px; border-radius: 32px; }
+            .schedule-row, .choice-grid.cols-3 { grid-template-columns: 1fr; }
+            .chip-btn .chip-cta { margin-left: 8px; }
+        }
+        /* Стили для ссылки и кнопки под логотипом */
+.hero-city {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 15px; /* Расстояние между ссылкой и кнопкой */
+    flex-wrap: wrap; /* Чтобы на телефонах они переносились на новую строку, если не влезают */
+}
+
+.city-link {
+    color: var(--text-soft);
+    text-decoration: none;
+    font-size: 18px;
+    transition: 0.3s;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.city-link:hover {
+    color: var(--rose);
+}
+
+.city-link i {
+    color: var(--text-soft); /* Цвет иконки */
+    transition: 0.3s;
+}
+
+.city-link:hover i {
+    color: var(--rose);
+}
+
+/* Стиль маленькой кнопки */
+.btn-mini {
+    background: var(--blush);
+    color: var(--rose);
+    border: 1px solid #f5e0d3;
+    padding: 6px 16px;
+    border-radius: 20px;
+    font-size: 15px;
+    cursor: pointer;
+    transition: 0.3s;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-family: inherit;
+}
+
+.btn-mini:hover {
+    background: var(--rose);
+    color: #fff;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 10px rgba(183,110,121,0.2);
+}
+
+.btn-mini i {
+    font-size: 14px;
+}
+    </style>
+</head>
+<body>
+
+    <!-- Верхняя панель -->
+    <div class="topbar">
+        <div class="topbar-brand" onclick="goTo(0)">Самая Красивая</div>
+        <div class="topbar-actions">
+            <a class="topbar-phone" href="tel:+79028292030"><i class="fas fa-phone"></i><span>+7 (912) 428-77-55</span></a>
+            <button class="topbar-btn" onclick="openCallModal()">Записаться</button>
+        </div>
+    </div>
+
+    <button class="arrow prev hidden" id="prevBtn" aria-label="Назад"><i class="fas fa-chevron-left"></i></button>
+    <button class="arrow next" id="nextBtn" aria-label="Вперёд"><i class="fas fa-chevron-right"></i></button>
+    <div class="dots" id="dots"></div>
+
+    <div class="slider">
+        <div class="slides" id="slides">
+
+            <!-- ========== СЛАЙД 1: ЛОГОТИП ========== -->
+            <section class="slide active">
+                <div class="slide-inner hero">
+                    <img src="assets/img/hero-logo.png" alt="Самая Красивая" class="hero-logo" style="max-width: 800px; width: 100%;">
+                    <div class="hero-tagline">Магазин одежды для будущих и кормящих мам и их малышей</div>
+                    <div class="hero-city">
+    <a href="#" onclick="goTo(3); return false;" class="city-link">
+        <i class="fas fa-location-dot"></i> Как нас найти?
+    </a>
+    <button type="button" class="btn-mini" onclick="goTo(2)">
+        <i class="fas fa-clock"></i> Режим работы
+    </button>
+</div>
+                    <div class="hero-chips">
+                        <button type="button" class="chip chip-btn" onclick="openGiftModal()"><i class="fas fa-gift"></i>Подарочные сертификаты<span class="chip-cta">Купить</span></button>
+                    </div>
+                    <button class="btn-main" onclick="goTo(1)">Смотреть ассортимент</button>
+                </div>
+            </section>
+
+            <!-- ========== СЛАЙД 2: АССОРТИМЕНТ ========== -->
+            <section class="slide">
+                <div class="slide-inner">
+                    <h2 class="section-title">Наш ассортимент</h2>
+                    <p class="section-sub">Одежда, в которой удобно и красиво — для мам и для малышей</p>
+
+                    <div class="assort-grid">
+                        <!-- Для мам -->
+                        <div class="assort-card">
+                            <div class="assort-head">
+                                <div class="assort-icon"><i class="fas fa-person-pregnant"></i></div>
+                                <h3>Одежда для мам</h3>
+                            </div>
+                            <ul class="assort-list">
+                                <li>
+                                    <span><i class="fas fa-shirt"></i>Повседневный костюм
+                                        <small>Турецкий трикотаж (трёхнитка), цвет «морская волна», размеры S, M, L, XL</small></span>
+                                    <span class="price">6 800 ₽</span>
+                                </li>
+                                <li>
+                                    <span><i class="fas fa-shirt"></i>Спортивный костюм
+                                        <small>Турецкий трикотаж (начёс), цвета: малиновый, зелёный. Размеры S, M, L, XL</small></span>
+                                    <span class="price">6 800 ₽</span>
+                                </li>
+                                <li>
+                                    <span><i class="fas fa-shirt"></i>Блузка для беременности и кормления
+                                        <small>На пуговицах, ткань «Прадо», цвет «леопард». Размеры 42–52</small></span>
+                                    <span class="price">3 500 ₽</span>
+                                </li>
+                                <li>
+                                    <span><i class="fas fa-shirt"></i>Платья и пуховики
+                                        <small>Для будущих и кормящих мам — подбираем при визите</small></span>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <!-- Для детей -->
+                        <div class="assort-card">
+                            <div class="assort-head">
+                                <div class="assort-icon"><i class="fas fa-baby"></i></div>
+                                <h3>Одежда для детей</h3>
+                            </div>
+                            <ul class="assort-list">
+                                <!-- На Яндекс Картах детский ассортимент не расписан.
+                                     Добавьте сюда свои позиции по образцу ниже:
+                                <li><span><i class="fas fa-child-reaching"></i>Название<small>Описание, размеры</small></span><span class="price">0 ₽</span></li> -->
+                                <li>
+                                    <span><i class="fas fa-child-reaching"></i>Одежда для малышей
+                                        <small>Отличный подарок к рождению малыша. Актуальный ассортимент и размеры — в магазине</small></span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="assort-foot">
+                        <i class="fas fa-percent"></i> В магазине действуют скидки, акции, бонусы и подарки
+                    </div>
+                </div>
+            </section>
+
+            <!-- ========== СЛАЙД 3: РЕЖИМ РАБОТЫ ========== -->
+            <section class="slide">
+                <div class="slide-inner">
+                    <h2 class="section-title">Режим работы</h2>
+                    <p class="section-sub">Ждём вас в гости в удобное для вас время</p>
+
+                    <div class="info-grid">
+                        <div class="info-card call-card">
+                            <h3><i class="fas fa-clock"></i> Часы работы</h3>
+
+                            <div class="hours-big">
+                                <div class="label">Магазин работает</div>
+                                <div class="time">по предварительной записи</div>
+                            </div>
+                            <p>Выберите удобное время — мы подберём размер и подготовимся к вашему визиту.</p>
+                            <button class="btn-main" onclick="openCallModal()">Записаться</button>
+                        </div>
+
+                        <div class="info-card">
+                            <h3><i class="fas fa-location-dot"></i> Контакты</h3>
+
+                            <div class="contact-line"><i class="fas fa-location-dot"></i>
+                                <span>Новый Уренгой, мкр. Строителей, 5/1<br><span class="note">Южная жилая часть</span></span>
+                            </div>
+                            <div class="contact-line"><i class="fas fa-phone"></i>
+                                <a href="tel:+79124287755">+7 (912) 428-77-55</a>
+                            </div>
+                            <div class="contact-line"><i class="fab fa-whatsapp "></i>
+                                <a href="https://wa.me/79124287755" target="_blank" rel="noopener">Написать в WhatsApp</a>
+                            </div>
+                            <div class="perks">
+                                <span class="perk">Парковка</span>
+                                <span class="perk">Подарочные сертификаты</span>
+                                <span class="perk">Наличные, перевод, СБП</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ========== СЛАЙД 4: КАРТА ========== -->
+            <section class="slide">
+                <div class="slide-inner">
+                    <h2 class="section-title">Как нас найти?</h2>
+
+                    <div class="map-wrap">
+                        <iframe
+                            src="https://yandex.ru/map-widget/v1/?ll=76.630156%2C66.088163&z=16&pt=76.630156%2C66.088163%2Cpm2rdl&l=map"
+                            loading="lazy" allowfullscreen
+                            title="Самая Красивая на карте"></iframe>
+
+                        <div class="map-overlay">
+                            <div class="head">📍 Наш адрес:</div>
+                            <div class="line">г. Новый Уренгой,</div>
+                            <div class="line">мкр. Строителей, 5/1</div>
+                            <a class="route" target="_blank" rel="noopener"
+                               href="https://yandex.ru/maps/org/samaya_krasivaya/12348983275/?ll=76.630156%2C66.088163&z=16">
+                                <i class="fas fa-route"></i> Построить маршрут
+                            </a>
+                            <div class="tags">
+                                <div class="head" style="font-size:17px;">Соцсети:</div>
+                                <a class="social-line" href="https://www.instagram.com/samayakrasivaya_mama?dlrf=MjIxMHQ3bnVoM2s4" target="_blank" rel="noopener">#инстаграмм</a>
+                                <a class="social-line" href="https://t.me/samayakrasivaya_mama" target="_blank" rel="noopener">#телеграм</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+        </div>
+    </div>
+
+    <!-- Модальное окно звонка -->
+    <div class="modal" id="callModal">
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeCallModal()" aria-label="Закрыть">×</button>
+            <h2 class="modal-title">Записаться</h2>
+
+            <form id="callForm" novalidate>
+                <div class="field">
+                    <label class="label" for="callName">Ваше имя</label>
+                    <input class="input" type="text" id="callName" autocomplete="name">
+                </div>
+                <div class="field">
+                    <label class="label" for="callPhone">Телефон</label>
+                    <input class="input" type="tel" id="callPhone" placeholder="+7 (___) ___-__-__" autocomplete="tel">
+                </div>
+                <div class="field">
+                    <label class="label" for="callTime">Удобные дата и время визита</label>
+                    <input class="input" type="text" id="callTime" placeholder="Например, завтра после 18:00">
+                </div>
+                <div class="field">
+                    <label class="checkbox">
+                        <input type="checkbox" id="callAgreement">
+                        <span>Я согласен на обработку персональных данных</span>
+                    </label>
+                </div>
+                <div class="form-error" id="formError"></div>
+                <button type="submit" class="btn-submit">Отправить</button>
+            </form>
+
+            <div class="success-box" id="successBox">
+                <i class="fas fa-circle-check"></i>
+                <h3>Спасибо!</h3>
+                <p>Мы свяжемся с вами, чтобы подтвердить запись.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Модальное окно: покупка подарочного сертификата -->
+    <div class="modal gift-modal" id="giftModal">
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeGiftModal()" aria-label="Закрыть">×</button>
+            <h2 class="modal-title">Подарочный сертификат</h2>
+            <p class="gift-lead">Подарите возможность выбрать самое красивое — для мамы или малыша</p>
+
+            <form id="giftForm" novalidate>
+                <!-- Номинал -->
+                <div class="field">
+                    <span class="step-label">Номинал</span>
+                    <div class="amount-grid">
+                        <button type="button" class="amount-btn" data-value="1000">1 000 ₽</button>
+                        <button type="button" class="amount-btn" data-value="2000">2 000 ₽</button>
+                        <button type="button" class="amount-btn selected" data-value="3000">3 000 ₽</button>
+                        <button type="button" class="amount-btn" data-value="5000">5 000 ₽</button>
+                        <button type="button" class="amount-btn" data-value="10000">10 000 ₽</button>
+                    </div>
+                    <input class="input" type="number" id="giftCustom" min="500" max="50000" step="100" inputmode="numeric"
+                           placeholder="Другая сумма: от 500 до 50 000 ₽">
+                </div>
+
+                <!-- Поздравление -->
+                <div class="field">
+                    <label class="label" for="giftText">Поздравление</label>
+                    <textarea class="input" id="giftText" maxlength="300"
+                              placeholder="Например: С днём рождения! Пусть каждый день будет красивым"></textarea>
+                    <div class="counter" id="giftCounter">0 / 300</div>
+                </div>
+
+                <!-- Получатель -->
+                <div class="field">
+                    <label class="label" for="giftPhone">Телефон получателя</label>
+                    <input class="input" type="tel" id="giftPhone" placeholder="+7 (___) ___-__-__">
+                    <div class="hint">На этот номер отправим сертификат с вашим поздравлением</div>
+                </div>
+
+                <!-- Когда отправить -->
+                <div class="field">
+                    <span class="step-label">Когда отправить</span>
+                    <div class="choice-grid">
+                        <label class="choice">
+                            <input type="radio" name="giftSend" value="now" checked>
+                            <span>Сегодня<small>Сразу после оплаты</small></span>
+                        </label>
+                        <label class="choice">
+                            <input type="radio" name="giftSend" value="later">
+                            <span>Выбрать дату и время<small>Например, ко дню рождения</small></span>
+                        </label>
+                    </div>
+                    <div class="schedule-box" id="scheduleBox">
+                        <div class="schedule-row">
+                            <div>
+                                <label class="label" for="giftDate">Дата</label>
+                                <input class="input" type="date" id="giftDate">
+                            </div>
+                            <div>
+                                <label class="label" for="giftTime">Время</label>
+                                <input class="input" type="time" id="giftTime">
+                            </div>
+                        </div>
+                        <div style="margin-top:12px;">
+                            <label class="label" for="giftTz">Часовой пояс получателя</label>
+                            <select class="input" id="giftTz">
+                                <option value="2">Калининград (UTC+2)</option>
+                                <option value="3">Москва (UTC+3)</option>
+                                <option value="4">Самара (UTC+4)</option>
+                                <option value="5" selected>Новый Уренгой, Екатеринбург (UTC+5)</option>
+                                <option value="6">Омск (UTC+6)</option>
+                                <option value="7">Красноярск, Новосибирск (UTC+7)</option>
+                                <option value="8">Иркутск (UTC+8)</option>
+                                <option value="9">Якутск (UTC+9)</option>
+                                <option value="10">Владивосток (UTC+10)</option>
+                                <option value="11">Магадан (UTC+11)</option>
+                                <option value="12">Камчатка (UTC+12)</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Оплата -->
+                <div class="field">
+                    <span class="step-label">Способ оплаты</span>
+                    <div class="choice-grid cols-3">
+                        <label class="choice"><input type="radio" name="giftPay" value="sbp" checked><span>СБП</span></label>
+                        <label class="choice"><input type="radio" name="giftPay" value="card"><span>Картой онлайн</span></label>
+                        <label class="choice"><input type="radio" name="giftPay" value="transfer"><span>Переводом</span></label>
+                    </div>
+                </div>
+
+                <!-- Покупатель -->
+                <div class="field">
+                    <label class="label" for="giftBuyerPhone">Ваш телефон</label>
+                    <input class="input" type="tel" id="giftBuyerPhone" placeholder="+7 (___) ___-__-__" autocomplete="tel">
+                    <div class="hint">Чтобы связаться с вами по оплате</div>
+                </div>
+
+                <div class="total-line"><span>К оплате:</span><b id="giftTotal">3 000 ₽</b></div>
+
+                <div class="field">
+                    <label class="checkbox">
+                        <input type="checkbox" id="giftAgreement">
+                        <span>Я согласен на обработку персональных данных</span>
+                    </label>
+                </div>
+                <div class="form-error" id="giftError"></div>
+                <button type="submit" class="btn-submit">Перейти к оплате</button>
+            </form>
+
+            <div class="success-box" id="giftSuccess">
+                <i class="fas fa-gift"></i>
+                <h3>Заказ принят!</h3>
+                <p id="giftSuccessText"></p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // ===== Слайдер =====
+        const slidesEl = document.getElementById('slides');
+        const slideList = Array.from(document.querySelectorAll('.slide'));
+        const dotsEl = document.getElementById('dots');
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+        let current = 0;
+
+        slideList.forEach((_, i) => {
+            const d = document.createElement('span');
+            d.className = 'dot' + (i === 0 ? ' active' : '');
+            d.addEventListener('click', () => goTo(i));
+            dotsEl.appendChild(d);
+        });
+
+        function goTo(n) {
+            current = Math.min(Math.max(n, 0), slideList.length - 1);
+            slidesEl.style.transform = `translateX(-${current * 25}%)`;
+            slideList.forEach((s, i) => s.classList.toggle('active', i === current));
+            dotsEl.querySelectorAll('.dot').forEach((d, i) => d.classList.toggle('active', i === current));
+            prevBtn.classList.toggle('hidden', current === 0);
+            nextBtn.classList.toggle('hidden', current === slideList.length - 1);
+            slideList[current].scrollTop = 0;
+        }
+        window.goTo = goTo;
+
+        prevBtn.addEventListener('click', () => goTo(current - 1));
+        nextBtn.addEventListener('click', () => goTo(current + 1));
+
+        document.addEventListener('keydown', e => {
+            if (document.getElementById('callModal').classList.contains('active')) {
+                if (e.key === 'Escape') closeCallModal();
+                return;
+            }
+            if (document.getElementById('giftModal').classList.contains('active')) {
+                if (e.key === 'Escape') closeGiftModal();
+                return;
+            }
+            if (e.key === 'ArrowRight') goTo(current + 1);
+            if (e.key === 'ArrowLeft') goTo(current - 1);
+        });
+
+        // Свайп на телефонах
+        let touchX = null, touchY = null;
+        slidesEl.addEventListener('touchstart', e => {
+            touchX = e.touches[0].clientX;
+            touchY = e.touches[0].clientY;
+        }, { passive: true });
+        slidesEl.addEventListener('touchend', e => {
+            if (touchX === null) return;
+            const dx = e.changedTouches[0].clientX - touchX;
+            const dy = e.changedTouches[0].clientY - touchY;
+            if (Math.abs(dx) > 60 && Math.abs(dx) > Math.abs(dy) * 1.5) {
+                goTo(dx < 0 ? current + 1 : current - 1);
+            }
+            touchX = touchY = null;
+        }, { passive: true });
+
+        // ===== Модальное окно записи =====
+        const callModal = document.getElementById('callModal');
+        const callForm = document.getElementById('callForm');
+        const successBox = document.getElementById('successBox');
+        const formError = document.getElementById('formError');
+
+        function openCallModal() {
+            callForm.style.display = 'block';
+            successBox.style.display = 'none';
+            formError.style.display = 'none';
+            callModal.classList.add('active');
+        }
+        function closeCallModal() {
+            callModal.classList.remove('active');
+        }
+        window.openCallModal = openCallModal;
+        window.closeCallModal = closeCallModal;
+
+        callModal.addEventListener('click', e => { if (e.target === callModal) closeCallModal(); });
+
+        // Простая маска телефона
+        document.getElementById('callPhone').addEventListener('input', function () {
+            let d = this.value.replace(/\D/g, '');
+            if (d.startsWith('8')) d = '7' + d.slice(1);
+            if (d && !d.startsWith('7')) d = '7' + d;
+            d = d.slice(0, 11);
+            let out = '';
+            if (d.length > 0) out = '+7';
+            if (d.length > 1) out += ' (' + d.slice(1, 4);
+            if (d.length >= 4) out += ')';
+            if (d.length > 4) out += ' ' + d.slice(4, 7);
+            if (d.length > 7) out += '-' + d.slice(7, 9);
+            if (d.length > 9) out += '-' + d.slice(9, 11);
+            this.value = out;
+        });
+
+        callForm.addEventListener('submit', function (e) {
+            e.preventDefault();
+            const name = document.getElementById('callName');
+            const phone = document.getElementById('callPhone');
+            const time = document.getElementById('callTime');
+            const agree = document.getElementById('callAgreement');
+
+            [name, phone].forEach(i => i.classList.remove('invalid'));
+            let msg = '';
+
+            if (!name.value.trim()) { name.classList.add('invalid'); msg = 'Введите ваше имя'; }
+            else if (phone.value.replace(/\D/g, '').length < 11) { phone.classList.add('invalid'); msg = 'Введите телефон полностью'; }
+            else if (!agree.checked) { msg = 'Необходимо согласие на обработку персональных данных'; }
+
+            if (msg) {
+                formError.textContent = msg;
+                formError.style.display = 'block';
+                return;
+            }
+
+            const payload = {
+                name: name.value.trim(),
+                phone: phone.value,
+                time: time.value.trim() || 'Не указано'
+            };
+
+           
+                        // === ОТПРАВКА УВЕДОМЛЕНИЯ В TELEGRAM ===
+            const TG_TOKEN = '9249230653:AAHNwYXjgOVtBBVq7UUFINssXVoyO7NqNWM'; // Ваш токен
+            const TG_CHAT_ID = '712349817'; // Сюда вставьте число, которое выдал @userinfobot
+
+            const text = `🌸 Новая запись!\n\n👤 Имя: ${payload.name}\n📞 Телефон: ${payload.phone}\n🕒 Время: ${payload.time}`;
+            
+            fetch(`https://api.telegram.org/bot${TG_TOKEN}/sendMessage`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    chat_id: TG_CHAT_ID,
+                    text: text
+                })
+            })
+            .then(res => res.json())
+            .then(data => {
+                if (data.ok) console.log('Уведомление в Telegram отправлено');
+                else console.error('Ошибка Telegram:', data.description);
+            })
+            .catch(err => console.error('Ошибка сети:', err));
+            // =======================================
+
+            callForm.style.display = 'none';
+            successBox.style.display = 'block';
+            callForm.reset();
+            setTimeout(closeCallModal, 2500);
+        });
+
+        // ===== Подарочный сертификат =====
+        const giftModal      = document.getElementById('giftModal');
+        const giftForm       = document.getElementById('giftForm'); 
+        const giftSuccess    = document.getElementById('giftSuccess');
+        const giftError      = document.getElementById('giftError');
+        const giftCustom     = document.getElementById('giftCustom');
+        const giftText       = document.getElementById('giftText');
+        const giftCounter    = document.getElementById('giftCounter');
+        const giftPhone      = document.getElementById('giftPhone');
+        const giftBuyerPhone = document.getElementById('giftBuyerPhone');
+        const scheduleBox    = document.getElementById('scheduleBox');
+        const giftDate       = document.getElementById('giftDate');
+        const giftTime       = document.getElementById('giftTime');
+        const giftTz         = document.getElementById('giftTz');
+        const giftTotal      = document.getElementById('giftTotal');
+        const amountBtns     = Array.from(document.querySelectorAll('.amount-btn'));
+        const GIFT_MIN = 500, GIFT_MAX = 50000, GIFT_DEFAULT = 3000;
+        let giftAmount = GIFT_DEFAULT;
+
+        // Маска телефона
+        function maskPhone(input) {
+            input.addEventListener('input', function () {
+                let d = this.value.replace(/\D/g, '');
+                if (d.startsWith('8')) d = '7' + d.slice(1);
+                if (d && !d.startsWith('7')) d = '7' + d;
+                d = d.slice(0, 11);
+                let out = '';
+                if (d.length > 0) out = '+7';
+                if (d.length > 1) out += ' (' + d.slice(1, 4);
+                if (d.length >= 4) out += ')';
+                if (d.length > 4) out += ' ' + d.slice(4, 7);
+                if (d.length > 7) out += '-' + d.slice(7, 9);
+                if (d.length > 9) out += '-' + d.slice(9, 11);
+                this.value = out;
+            });
+        }
+        maskPhone(giftPhone);
+        maskPhone(giftBuyerPhone);
+
+        // Номинал
+        function giftAmountValid() {
+            return Number.isInteger(giftAmount) && giftAmount >= GIFT_MIN && giftAmount <= GIFT_MAX && giftAmount % 100 === 0;
+        }
+        function renderAmount() {
+            giftTotal.textContent = giftAmountValid() ? giftAmount.toLocaleString('ru-RU') + ' ₽' : '—';
+        }
+        function selectPreset(value) {
+            giftAmount = value;
+            amountBtns.forEach(b => b.classList.toggle('selected', Number(b.dataset.value) === value));
+            giftCustom.value = '';
+            giftCustom.classList.remove('invalid');
+            renderAmount();
+        }
+        amountBtns.forEach(btn => btn.addEventListener('click', () => selectPreset(Number(btn.dataset.value))));
+        giftCustom.addEventListener('input', () => {
+            amountBtns.forEach(b => b.classList.remove('selected'));
+            giftAmount = giftCustom.value === '' ? NaN : Number(giftCustom.value);
+            giftCustom.classList.remove('invalid');
+            renderAmount();
+        });
+
+        // Счётчик поздравления
+        giftText.addEventListener('input', () => {
+            giftCounter.textContent = giftText.value.length + ' / 300';
+        });
+
+        // Когда отправить + часовой пояс
+        function sendMode() { return document.querySelector('input[name="giftSend"]:checked').value; }
+        function tzOffset() { return Number(giftTz.value); }
+        function todayInTz() { return new Date(Date.now() + tzOffset() * 3600000).toISOString().slice(0, 10); }
+        function refreshSchedule() {
+            scheduleBox.classList.toggle('open', sendMode() === 'later');
+            giftDate.min = todayInTz();
+        }
+        document.querySelectorAll('input[name="giftSend"]').forEach(r => r.addEventListener('change', refreshSchedule));
+        giftTz.addEventListener('change', refreshSchedule);
+
+        // Момент отправки: дата и время считаются в выбранном часовом поясе
+        function sendInstant() {
+            const [y, m, d] = giftDate.value.split('-').map(Number);
+            const [hh, mm] = giftTime.value.split(':').map(Number);
+            return new Date(Date.UTC(y, m - 1, d, hh, mm) - tzOffset() * 3600000);
+        }
+
+        function openGiftModal() {
+            giftForm.style.display = 'block';
+            giftSuccess.style.display = 'none';
+            giftError.style.display = 'none';
+            refreshSchedule();
+            giftModal.classList.add('active');
+        }
+        function closeGiftModal() {
+            giftModal.classList.remove('active');
+        }
+        window.openGiftModal = openGiftModal;
+        window.closeGiftModal = closeGiftModal;
+        giftModal.addEventListener('click', e => { if (e.target === giftModal) closeGiftModal(); });
+
+        giftForm.addEventListener('submit', function (e) {
+            e.preventDefault();
+            [giftCustom, giftPhone, giftBuyerPhone, giftDate, giftTime].forEach(i => i.classList.remove('invalid'));
+
+            const fail = (el, msg) => {
+                if (el) { el.classList.add('invalid'); el.focus(); }
+                giftError.textContent = msg;
+                giftError.style.display = 'block';
+            };
+
+            if (!giftAmountValid()) return fail(giftCustom, 'Укажите номинал от 500 до 50 000 ₽ (кратно 100)');
+            if (giftPhone.value.replace(/\D/g, '').length < 11) return fail(giftPhone, 'Введите телефон получателя полностью');
+
+            let sendAt = null;
+            if (sendMode() === 'later') {
+                if (!giftDate.value) return fail(giftDate, 'Выберите дату отправки');
+                if (!giftTime.value) return fail(giftTime, 'Выберите время отправки');
+                sendAt = sendInstant();
+                if (sendAt.getTime() <= Date.now()) return fail(giftDate, 'Дата и время отправки должны быть в будущем');
+            }
+
+            if (giftBuyerPhone.value.replace(/\D/g, '').length < 11) return fail(giftBuyerPhone, 'Введите ваш телефон полностью');
+            if (!document.getElementById('giftAgreement').checked) return fail(null, 'Необходимо согласие на обработку персональных данных');
+
+            const tzLabel = 'UTC+' + tzOffset();
+            const payload = {
+                amount: giftAmount,
+                greeting: giftText.value.trim(),
+                recipientPhone: giftPhone.value,
+                sendMode: sendMode(),                                   // 'now' | 'later'
+                sendAtUtc: sendAt ? sendAt.toISOString() : null,        // момент отправки в UTC
+                sendAtLocal: sendAt ? giftDate.value + ' ' + giftTime.value : null,
+                timezone: tzLabel,
+                payment: document.querySelector('input[name="giftPay"]:checked').value, // sbp | card | transfer
+                buyerPhone: giftBuyerPhone.value
+            };
+
+            // TODO: отправка на сервер. Например ajax/buy_certificate.php — создаёт запись в gift_certificates
+            // (code GIFT-..., nominal, status 'pending'), после оплаты ставит 'active' и отправляет получателю.
+            // fetch('ajax/buy_certificate.php', { method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify(payload) });
+                        // === ОТПРАВКА УВЕДОМЛЕНИЯ О СЕРТИФИКАТЕ В TELEGRAM ===
+            const TG_TOKEN = '9249230653:AAHNwYXjgOVtBBVq7UUFINssXVoyO7NqNWM'; 
+            const TG_CHAT_ID = '712349817'; // Вставьте ваш ID
+
+            // Формируем красивое сообщение
+            const giftTextMsg = 
+                `🎁 *НОВЫЙ ЗАКАЗ СЕРТИФИКАТА*\n\n` +
+                `💰 Сумма: *${payload.amount} ₽*\n` +
+                `📱 Получатель: ${payload.recipientPhone}\n` +
+                `✍️ Поздравление: ${payload.greeting || 'Без текста'}\n` +
+                `⏰ Отправка: ${payload.sendMode === 'now' ? 'Сразу после оплаты' : payload.sendAtLocal}\n` +
+                `💳 Оплата: ${payload.payment}\n` +
+                `📞 Покупатель: ${payload.buyerPhone}\n\n` +
+                `⚠️ *Проверьте поступление и отправьте СМС получателю!*`;
+
+            fetch(`https://api.telegram.org/bot${TG_TOKEN}/sendMessage`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    chat_id: TG_CHAT_ID,
+                    text: giftTextMsg,
+                    parse_mode: 'Markdown' // Чтобы текст был жирным и красивым
+                })
+            })
+            .then(res => res.json())
+            .then(data => {
+                if (data.ok) console.log('Заказ отправлен в Telegram');
+                else console.error('Ошибка Telegram:', data.description);
+            })
+            .catch(err => console.error('Ошибка сети:', err));
+            // === ТЕКСТ ДЛЯ КЛИЕНТА ===
+            document.getElementById('giftSuccessText').textContent = 
+                'Заказ на сумму ' + giftAmount.toLocaleString('ru-RU') + ' ₽ принят! ' +
+                'Пожалуйста, переведите эту сумму на номер: +7 (902) 829-20-30 (СБП или карта). ' +
+                'После перевода напишите нам в Telegram, и мы сразу отправим сертификат получателю.';
+
+            // Очистка формы и показ сообщения об успехе
+            giftForm.reset();
+            selectPreset(GIFT_DEFAULT);
+            giftCounter.textContent = '0 / 300';
+            refreshSchedule();
+            giftForm.style.display = 'none';
+            giftSuccess.style.display = 'block';
+        });
+    </script>
+</body>
+</html>
